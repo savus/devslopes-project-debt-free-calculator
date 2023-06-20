@@ -1,19 +1,25 @@
-export function InputGroup(
-   { 
-      text, 
-      placeholder, 
-      value, 
-      onChange
-   }) {
+import { useState } from "react";
+
+export function InputGroup({
+   name,
+   title,
+   userInformation,
+   handleUserInformation
+}) {
+  const [userInput, setUserInput] = useState("");
 
   return (
-    <div className="input-container">
-      <label htmlFor="home-value">{text}</label>
-      <input 
-         type="number" 
-         placeholder={placeholder} 
-         value={value}
-         onChange={onChange}
+    <div className="input-group">
+      <label htmlFor={name}>{title}</label>
+      <input
+        type="number"
+        id={name}
+        name={name}
+        onChange={({target:{value}}) => {
+         setUserInput(value);
+         handleUserInformation(value);
+      }}
+        value={userInput}
       />
     </div>
   );
