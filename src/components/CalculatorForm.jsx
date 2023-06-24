@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { InputGroup } from "./InputGroup";
 export function CalculatorForm({
-  userInformation: { totalDebt, interestRate },
+  userInformation: { totalDebt, interestRate, paymentMade },
   handleUserInformation,
   percentageToDecimal,
   amountFromInterest,
@@ -9,18 +9,23 @@ export function CalculatorForm({
   const [debtInput, setDebtInput] = useState("");
   const [interestRateInput, setInterestRateInput] = useState("");
   const [paymentInput, setPaymentInput] = useState("");
+
   const minimumRecommendedPayment =
     amountFromInterest(totalDebt, interestRate) + totalDebt * 0.01;
-  return (
-    <form
+  const deductPayment = (total, deduction) => total - deduction;
+  
+    return (
+      <form
       action="#"
       onSubmit={(e) => {
         e.preventDefault();
         handleUserInformation({
           totalDebt: debtInput,
           interestRate: interestRateInput,
-          paymentAmount: paymentInput
+          paymentMade: paymentInput
         });
+
+        deductPayment(totalDebt, paymentMade);
       }}
     >
       <InputGroup
