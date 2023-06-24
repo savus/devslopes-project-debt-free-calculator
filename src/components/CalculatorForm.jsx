@@ -14,20 +14,20 @@ export function CalculatorForm({
   const minimumRecommendedPayment =
     amountFromInterest(debtInput, interestRate) + debtInput * 0.01;
 
-  const deductPaymentFromTotal = () => setDebtInput(debtInput - paymentMade);
+  const deductPaymentFromTotal = () => setDebtInput(debtInput - paymentInput);
   
     return (
       <form
       action="#"
       onSubmit={(e) => {
         e.preventDefault();
-
+        
+        deductPaymentFromTotal();
         handleUserInformation({
           interestRate: interestRateInput,
           paymentMade: paymentInput
         });
 
-        deductPaymentFromTotal();
       }}
     >
       <InputGroup

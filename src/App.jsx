@@ -4,7 +4,8 @@ import { CalculatorForm } from './components/CalculatorForm'
 function App() {
   const [userInformation, setUserInformation] = useState({
     totalDebt:0,
-    interestRate:0
+    interestRate:0,
+    paymentMade:0
   });
 
   const percentageToDecimal = (percent) => percent / 100;
