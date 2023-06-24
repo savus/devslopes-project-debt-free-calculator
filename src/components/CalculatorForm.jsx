@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { InputGroup } from "./InputGroup";
+
 export function CalculatorForm({
   userInformation: { totalDebt, interestRate, paymentMade },
   handleUserInformation,
@@ -11,21 +12,22 @@ export function CalculatorForm({
   const [paymentInput, setPaymentInput] = useState("");
 
   const minimumRecommendedPayment =
-    amountFromInterest(totalDebt, interestRate) + totalDebt * 0.01;
-  const deductPayment = (total, deduction) => total - deduction;
+    amountFromInterest(debtInput, interestRate) + debtInput * 0.01;
+
+  const deductPaymentFromTotal = () => setDebtInput(debtInput - paymentMade);
   
     return (
       <form
       action="#"
       onSubmit={(e) => {
         e.preventDefault();
+
         handleUserInformation({
-          totalDebt: debtInput,
           interestRate: interestRateInput,
           paymentMade: paymentInput
         });
 
-        deductPayment(totalDebt, paymentMade);
+        deductPaymentFromTotal();
       }}
     >
       <InputGroup
@@ -54,13 +56,13 @@ export function CalculatorForm({
      
       <input type="submit" value="submit" />
       <ul>
-        <li>Total Debt: {totalDebt}</li>
+        <li>Total Debt: {debtInput}</li>
         <li>Interest Rate: {interestRate}</li>
         <li>Interest Percentage: {percentageToDecimal(interestRate)}</li>
         <li>
-          Amount From Interest: {amountFromInterest(totalDebt, interestRate)}
+          Amount From Interest: {amountFromInterest(debtInput, interestRate)}
         </li>
-        <li>Minimum Percentage: {totalDebt * 0.01}</li>
+        <li>Minimum Percentage: {debtInput * 0.01}</li>
         <li>Recommended Minimum Payment: {minimumRecommendedPayment}</li>
       </ul>
     </form>
