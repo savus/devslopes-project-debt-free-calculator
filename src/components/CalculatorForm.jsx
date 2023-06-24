@@ -1,28 +1,23 @@
 import { useState } from "react";
 import { InputGroup } from "./InputGroup";
-
-export function CalculatorForm({ userInformation, handleUserInformation }) {
-  const [totalDebtInput, setTotalDebt] = useState("");
-  const [interestRateInput, setInterestRate] = useState("");
+export function CalculatorForm({
+  userInformation: { totalDebt, interestRate },
+  handleUserInformation,
+  percentageToDecimal,
+  amountFromInterest,
+}) {
+  const [debtInput, setDebtInput] = useState("");
+  const [interestRateInput, setInterestRateInput] = useState("");
   const [paymentInput, setPaymentInput] = useState("");
-
-  const percentToDecimal = (percent) => percent / 100;
-
-  const minimumPayment = (total) => total * 0.01;
-
-  const interestAmount = (total, interest) => total * interest;
-
-  const recommendedMinimum = (total, interest) =>
-    minimumPayment(total) + interestAmount(total, interest);
-    
-  const deductPayment = (total, payment) => total - payment;
+  const minimumRecommendedPayment =
+    amountFromInterest(totalDebt, interestRate) + totalDebt * 0.01;
   return (
     <form
       action="#"
       onSubmit={(e) => {
         e.preventDefault();
         handleUserInformation({
-          totalDebt: totalDebtInput,
+          totalDebt: debtInput,
           interestRate: interestRateInput,
           paymentAmount: paymentInput
         });
@@ -30,33 +25,39 @@ export function CalculatorForm({ userInformation, handleUserInformation }) {
     >
       <InputGroup
         name={"total-debt"}
-        title={"Total Debt:"}
-        placeholder={"Enter total amount"}
-        onChange={({ target: { value } }) => setTotalDebt(value)}
-        value={totalDebtInput}
+        title="Total Debt"
+        placeHolder={"Enter total amount here"}
+        onChange={({ target: { value } }) => setDebtInput(value)}
+        value={debtInput}
       />
 
       <InputGroup
         name={"interest-rate"}
-        title={"Interest Rate:"}
-        placeholder={"Enter percentage"}
-        onChange={({ target: { value } }) => setInterestRate(value)}
+        title={"Interest Rate"}
+        placeHolder={"Enter percentage here"}
+        onChange={({ target: { value } }) => setInterestRateInput(value)}
         value={interestRateInput}
       />
 
       <InputGroup
-        name={"payment-input"}
-        title={"Make a Payment:"}
-        placeholder={"Enter amount"}
+        name={"make-payment"}
+        title={"Make a Payment"}
+        placeHolder={"Enter amount here"}
         onChange={({ target: { value } }) => setPaymentInput(value)}
         value={paymentInput}
       />
-
+     
       <input type="submit" value="submit" />
-      <div>Total Debt: {userInformation.totalDebt}</div>
-      <div>Interest Rate: {userInformation.interestRate}%</div>
-      <div>Interest Percent: {percentToDecimal(userInformation.interestRate)}</div>
-      <div>Payment Amount: {userInformation.paymentAmount}</div>
+      <ul>
+        <li>Total Debt: {totalDebt}</li>
+        <li>Interest Rate: {interestRate}</li>
+        <li>Interest Percentage: {percentageToDecimal(interestRate)}</li>
+        <li>
+          Amount From Interest: {amountFromInterest(totalDebt, interestRate)}
+        </li>
+        <li>Minimum Percentage: {totalDebt * 0.01}</li>
+        <li>Recommended Minimum Payment: {minimumRecommendedPayment}</li>
+      </ul>
     </form>
   );
 }

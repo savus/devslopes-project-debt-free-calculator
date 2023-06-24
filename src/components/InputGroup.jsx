@@ -1,13 +1,21 @@
-export function InputGroup({name, title, placeholder, value, onChange}) {
+export function InputGroup({
+  name,
+  title,
+  placeHolder,
+  onChange,
+  value
+}) {
   return (
     <div className="input-container">
       <label htmlFor={name}>{title}:</label>
-      <input 
+      <input
+        id={name} 
+        name={name}
         type="number" 
-        placeholder={placeholder} 
+        placeholder={placeHolder}
         onChange={onChange}
         value={value}
       />
-    </div>
-  );
+  </div>
+  )
 }
